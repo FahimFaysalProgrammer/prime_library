@@ -1,0 +1,101 @@
+{% extends 'base.html' %} {% load static %} {% block head_title %}Banking
+System{% endblock %} {% block content %} {% load humanize %}
+
+<div class="text-center">
+  <h1 class="text-center text-5xl pt-1 pb-6 text-white">Profile Page</h1>
+  <a
+    class="bg-pink-700 hover:bg-pink-500 text-white font-bold py-2 px-4 rounded"
+    href="{% url 'edit_profile' %}"
+    >Edit Your Profile</a
+  >
+</div>
+<!--  -->
+<section
+  style="padding-left: 240px"
+  class="container mx-auto flex flex-col md:flex-row justify-center items-center my-12 md:my-24"
+>
+  <div style="text-align: center" class="lg:w-1/3 lg:py-6">
+    <img class="rounded" src="{{ request.user.account.profile_image.url }}" />
+  </div>
+
+  <div
+    class="flex flex-col w-full lg:w-1/2 justify-center items-start pt-12 pb-24 px-6 bg-white rounded-2xl bg-opacity-70 mx-3"
+  >
+    <h1 class="font-bold text-2xl mb-4">
+      <span class="font-semibold text-red-600">Username: </span>{{
+      request.user.username }}
+    </h1>
+    <h1 class="font-bold text-2xl mb-4">
+      <span class="font-semibold text-red-600">First Name: </span>{{
+      request.user.first_name }}
+    </h1>
+    <h1 class="font-bold text-2xl mb-4">
+      <span class="font-semibold text-red-600">Last Name: </span>{{
+      request.user.last_name }}
+    </h1>
+    <h1 class="font-bold text-2xl mb-4">
+      <span class="font-semibold text-red-600">Email: </span>{{
+      request.user.email }}
+    </h1>
+    <h1 class="font-bold text-2xl mb-4">
+      <span class="font-semibold text-red-600">Phone: </span>{{
+      request.user.address.phone_no }}
+    </h1>
+    <h1 class="font-bold text-2xl mb-4">
+      <span class="font-semibold text-red-600">Address: </span>{{
+      request.user.address.street_address }},
+      <span>{{ request.user.address.city }}</span>
+    </h1>
+  </div>
+</section>
+<!-- Table start -->
+<section style="padding-bottom: 140px">
+  {% if borrows %}
+  <table
+    style="background-color: beige"
+    class="table table-bordered mt-5"
+    style="width: 90%"
+  >
+    <thead>
+      <tr style="overflow: hidden; white-space: nowrap; text-align: center">
+        <th scope="col">Transaction ID</th>
+        <th scope="col">Borrower</th>
+        <th scope="col">Borrowed Book</th>
+        <th scope="col">Borrowed Price</th>
+        <th scope="col">Borrow Date</th>
+        <th scope="col">Balance after Borrowing Book</th>
+        <th scope="col">Return Book</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for borrow in borrows %}
+      <tr>
+        <td>{{ borrow.id }}</td>
+        <td>{{ borrow.user.username }}</td>
+        <td>{{ borrow.book.book_title }}</td>
+        <td>{{ borrow.book.book_borrowing_price }}</td>
+        <td>{{ borrow.book_borrow_date }}</td>
+        <td>
+            $ {{ borrow.deposit.balance_after_transaction|floatformat:2|intcomma }}
+        </td>
+        <td>
+          <!-- <form method="post" action="{% url 'pay' borrow.id %}">
+                        {% csrf_token %}
+                        <button class="btn btn-danger" type="submit">Return Book</button>
+                      </form> -->
+          <a
+            class="font-bold bg-red-900 text-white border border-blue-900 font-bold px-4 py-2 rounded-lg"
+            href='{% url "pay" borrow.id}'
+            >Pay</a
+          >
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <h3>No Data Available To Show</h3>
+  {% endif %}
+</section>
+<!-- Table end -->
+{% endblock %}

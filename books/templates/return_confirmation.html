@@ -1,0 +1,27 @@
+{% extends 'base.html' %} {% load static %} {% block head_title %}Banking
+System{% endblock %} {% block content %}
+
+
+<div>
+    <h2>Return Confirmation</h2>
+    <p>You are confirming the return of the following book:</p>
+
+    <ul>
+        <li><strong>Transaction ID:</strong> {{ borrow.id }}</li>
+        <li><strong>Borrower:</strong> {{ borrow.borrower.username }}</li>
+        <li><strong>Borrowed Book:</strong> {{ borrow.borrowed_book.book_title }}</li>
+        <li><strong>Borrowed Price:</strong> {{ borrow.borrowed_book.book_borrowing_price }}</li>
+        <li><strong>Balance after Borrowing:</strong> {{ borrow.balance_after_borrowing|default:'N/A' }}</li>
+        <li><strong>Borrow Date:</strong> {{ borrow.book_borrow_date }}</li>
+        <li><strong>Deposit:</strong> {{ borrow.deposit.amount|default:'N/A' }}</li>
+    </ul>
+
+    <form method="post" action="{% url 'return_book' borrow.id %}">
+        {% csrf_token %}
+        <button type="submit">Confirm Return</button>
+    </form>
+
+    <!-- Add any additional information or styling here -->
+</div>
+
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends 'base.html' %} {% load static %} {% block head_title %}Library System
+{% endblock %} {% block content %}
+<section style="height: 150vh;">
+  <section class="">
+    <!-- Card start -->
+    <div style="background-color: #555555; width: 18%; color: #ffffff">
+      <h4 class="my-5 p-2">Total Book Found: {{data | length}}</h4>
+    </div>
+    <div class="grid grid-cols-5 gap-4">
+      {% for book in data %}
+      <div class="rounded overflow-hidden shadow-lg p-2 text-justify">
+        <div class="me-2 h-100">
+            <img
+              src="{{book.image.url}}"
+              style="
+                max-height: 196px;
+                margin: auto;
+                vertical-align: top;
+                max-width: 100%;
+                border: 0;
+                text-align: center;
+                overflow-clip-margin: content-box;
+                overflow: clip;
+              "
+              alt="..."
+            />
+            <h5 class="pt-3 pb-3 text-lg font-semibold">{{book.book_title|truncatewords:3}}</h5>
+            <p>
+              <span class="font-semibold">Description:</span> <span class="text-sm">{{book.description|truncatewords:5}}</span>
+            </p>
+            <p class="pt-3 pb-3"><span class="font-semibold">Borrowed Price</span> : <span class="text-red-400">${{book.book_borrowing_price}}</span></p>
+            <button class="btn btn-secondary ">
+              <a
+                href="{% url 'detail_book' book.id %}"
+                class="text-decoration-none text-white"
+                >Book Details</a
+              >
+            </button>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    <!-- Card end -->
+  </section>
+</section>
+
+{% endblock %}

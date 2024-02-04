@@ -1,0 +1,114 @@
+<nav class="flex items-center justify-between flex-wrap p-6 px-10 bg-blue-200">
+  <div class="flex items-center flex-shrink-0 text-white mr-6">
+    <span
+      style="
+        font-size: 25px;
+        background: #cb60b3;
+        background: linear-gradient(
+          to right,
+          #a80077 51%,
+          #db36a4 100%,
+          #cb60b3 0%,
+          #c146a1 50%
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      "
+      class="font-bold text-xl tracking-tight text-blue-900"
+      ><a href="/">Prime Library</a></span
+    >
+  </div>
+  <!-- Toggle menu start -->
+  <div>
+    <button
+      class="btn btn-dark dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-expanded="false"
+    >
+      Categories
+    </button>
+    <ul class="dropdown-menu dropdown-menu-dark">
+      {% for cat in category %}
+      <li
+        style="text-align: start; font-size: 18px; padding: 10px 30px 10px 10px"
+      >
+        <div class="pt-2">
+          <input
+            class="form-check-input"
+            type="radio"
+            name="category"
+            id="{{cat.id}}"
+            hidden
+          />
+          <label class="form-check-label" for="{{cat.id}}">
+            <div>
+              <h5 class="category_name">
+                <a
+                  href="{% if cat.slug %}{% url 'category_wise_book' cat.slug %}{% endif %}"
+                  class="text-decoration-none text-white"
+                >
+                  {{cat.name}}
+                </a>
+              </h5>
+            </div>
+          </label>
+        </div>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+  <!-- Toggle menu end -->
+  <div class="w-full block flex-grow lg:flex lg:items-center lg:w-auto px-10">
+    {% if request.user.is_authenticated %}
+      <div class="text-md lg:flex-grow">
+        <a
+          href="{% url 'transaction_report' %}"
+          class="block ms-4 mt-0 lg:inline-block lg:mt-0 text-blue-900 hover:text-red-900 hover:font-black mr-0"
+        >
+          Report
+        </a>
+        <a
+          href="{% url 'deposit_money' %}"
+          class="block ms-4 mt-0 lg:inline-block lg:mt-0 text-blue-900 hover:text-red-900 hover:font-black mr-0"
+        >
+          Deposit
+        </a>
+      </div>
+      <div class="flex w-auto">
+        <div class="text-blue-900 my-auto font-black px-5">
+          Welcome, {{ request.user.first_name }} (balance
+          :{{request.user.account.balance}})
+        </div>
+
+        <a
+          href="{% url 'profile' %}"
+          class="mx-2 inline-block font-medium text-sm px-4 py-2 leading-none bg-blue-900 rounded text-white border-white hover:border-transparent hover:text-dark hover:bg-green-700 mt-0 lg:mt-0"
+          >Profile</a
+        >
+        <a
+          class="mx-2 inline-block font-medium text-sm px-4 py-2 leading-none bg-blue-900 rounded text-white border-white hover:border-transparent hover:text-dark hover:bg-red-700 mt-0 lg:mt-0"
+          ><form method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit">logout</button>
+          </form>
+        </a>
+      </div>
+    {% else %}
+    <div class="text-md lg:flex-grow"></div>
+    <div>
+      <a
+        href="{% url 'login' %}"
+        class="mr-2 inline-block font-medium text-sm px-4 py-2 leading-none bg-blue-900 rounded text-white border-white hover:border-transparent hover:text-gray-800 hover:bg-red-700 mt-0 lg:mt-0"
+        >Login</a
+      >
+    </div>
+    <div>
+      <a
+        href="{% url 'register' %}"
+        class="inline-block font-medium text-sm px-4 py-2 leading-none bg-blue-900 rounded text-white border-white hover:border-transparent hover:text-gray-800 hover:bg-green-700 mt-0 lg:mt-0"
+        >Register</a
+      >
+    </div>
+    {% endif %}
+  </div>
+</nav>

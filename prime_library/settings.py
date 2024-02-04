@@ -31,7 +31,7 @@ SECRET_KEY = env("SECRET_KEY")
 DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
-CSRF_TRUSTED_ORIGINS = ['https://mamar-bank-4qns.onrender.com','https://*.127.0.0.1']
+CSRF_TRUSTED_ORIGINS = ['https://prime-library.onrender.com','https://*.127.0.0.1']
 
 
 # Application definition
@@ -108,7 +108,7 @@ WSGI_APPLICATION = 'prime_library.wsgi.application'
 DATABASES = {
     'default': dj_database_url.config(
         # Feel free to alter this value to suit your needs.
-        default='postgres://prime_library_user:A9Dmswys6GRkYv9CMacsut7Syfqvhfz2@dpg-cmvhphf109ks73bb6g5g-a.oregon-postgres.render.com/prime_library',
+        default='postgres://primelibrary_user:tV5aibH35Y85rt0XnsI5NxeXqRAQGbp2@dpg-cmvlblgl5elc73ef0ni0-a.oregon-postgres.render.com/primelibrary',
     )
 }
 
